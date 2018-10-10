@@ -8,7 +8,7 @@ import functools
 from chainer.backends import cuda
 
 from dataset import SingleImageDataset
-os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+#os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 
 parser = argparse.ArgumentParser()
@@ -80,7 +80,7 @@ def train():
     # trainer.run()
 
     step = 0
-    sum_loss_generator, sum_loss_generator_adversarial, sum_loss_generator_content = 0, 0, 0
+    sum_loss_generator = 0
     for zipped_batch in iterator:
         lr = chainer.Variable(xp.array([zipped[0] for zipped in zipped_batch]))
         hr = chainer.Variable(xp.array([zipped[1] for zipped in zipped_batch]))
@@ -102,7 +102,7 @@ def train():
         save_span = 500
         step += 1
         if step % report_span == 0:
-            sum_loss_generator, sum_loss_generator_adversarial, sum_loss_generator_content = 0, 0, 0
+            sum_loss_generator = 0
             print("Step: {}".format(step))
             print("loss_generator: {}".format(loss_g))
         if step % save_span == 0:
